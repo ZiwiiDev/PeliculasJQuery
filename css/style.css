@@ -69,18 +69,22 @@ nav img {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 /* Zona que contiene las 5 imágenes de cada película */
 .imagenes .imagenes_img {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  width: 100%;
+  
 }
 
 /* Imagen individual de la zona de imágens (recordemos que hay 5 imágenes por cada película y que cambian */
 .imagenes .imagenes_img img {
   margin-top: 0px;
-  width: 40%;
+  height: 5rem;
+  width: 100%;
 }
 
 /* Zona relacionada con los circulos que permiten seleccionar cada una de las imágenes relacionadas con la película */
@@ -89,6 +93,7 @@ nav img {
   height: 5%;
   margin-bottom: 10px;
 }
+
 
 /* circulo que permite seleccionar cada una de las películas */
 .circulo_selector_img {
