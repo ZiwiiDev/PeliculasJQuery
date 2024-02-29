@@ -4,3 +4,8 @@ $(document).ready(function () {
   }
   inicializar();
 });
+
+function BENI() {
+  let beni = "Beni";
+  return beni;
+}
