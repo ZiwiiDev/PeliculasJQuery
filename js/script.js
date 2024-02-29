@@ -16,6 +16,7 @@ $(document).ready(function () {
   actualizoDescripcionPelicula();
 });
 
+
 function inicializar() {
   $("nav img").css("filter", filtroInicial);
 }
@@ -229,4 +230,6 @@ function actualizoDescripcionPelicula() {
       }
     },
   });
+
+
 }
