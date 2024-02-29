@@ -1,6 +1,6 @@
 # Último proyectito del Chicote
 ## Interacción con películas · JQuery
-
+README TIO QUE PASA
 > [!NOTE]
 > En desarrollo...
 
