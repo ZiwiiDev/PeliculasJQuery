@@ -5,6 +5,3 @@ $(document).ready(function () {
   inicializar();
 });
 
-function holamigo(amigo){
-  return "Hola "+ amigo;
-}
