@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto UD06 · Oliver y Kevin</title>
+
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- Enlazo el JQUERY -->
+    <!-- Externo -->
+    <!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>-->
+
+    <!-- Local -->
+    <script src="./js/jquery-3.7.1.min.js"></script>
+
+    <!-- Enlace para el JS -->
+    <script src="./js/script.js"></script>
+</head>
+<body>
+    <!-- Contenedor principal de la maqueta -->
+    <div id="contenedor_1">
+        <!-- Zona de cabecera -->
+        <header>
+            <h1>Título película</h1>
+        </header>
+
+        <!-- Zona de navegación -->
+        <nav>
+            <img src="./assets/img/pel_acc.png">
+            <img src="./assets/img/pel_ani.png">
+            <img src="./assets/img/pel_med.png">
+        </nav>
+
+        <!-- Carátula ampliada -->
+        <div class="pelicula">
+            <img id="caratula_ampliada" src="./assets/img/pel_acc.png" alt="Ordenador con código">
+        </div>
+
+        <!-- Zona de imágenes relacionadas con la película -->
+        <div class="imagenes">
+            <!-- Imágenes individuales -->
+            <div class="imagenes_img">
+                <!-- Se muestran todas las imágenes máximo 5-->
+
+                <!-- Imagen individual, se repite 5 veces -->
+                <figure>
+                    <img class="imagenes_img_img" src="./assets/img/pel_acc_01.png" alt="Imagen de película">
+                    <figcaption>Acción 1</figcaption>
+                </figure>
+                <figure>
+                    <img class="imagenes_img_img" src="./assets/img/pel_acc_02.png" alt="Ordenador con código">
+                    <figcaption>Acción 2</figcaption>
+                </figure>
+                <figure>
+                    <img class="imagenes_img_img" src="./assets/img/pel_acc_03.png" alt="Ordenador con código">
+                    <figcaption>Acción 3</figcaption>
+                </figure>
+                <figure>
+                    <img class="imagenes_img_img" src="./assets/img/pel_acc_04.png" alt="Ordenador con código">
+                    <figcaption>Acción 4</figcaption>
+                </figure>
+                <figure>
+                    <img class="imagenes_img_img" src="./assets/img/pel_acc_05.png" alt="Ordenador con código">
+                    <figcaption>Acción 5</figcaption>
+                </figure>
+            </div>
+
+            <!-- Circulos de navegación, al pulsarlos debería mostrarse una imagen individual -->
+            <div class="imagenes_nav">
+                <div class="circulo_selector_img">
+
+                </div>
+                <div class="circulo_selector_img">
+
+                </div>
+                <div class="circulo_selector_img">
+
+                </div>
+                <div class="circulo_selector_img">
+
+                </div>
+                <div class="circulo_selector_img">
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Descripción de la película, se debe incluir, año, genero, nacionalidad y texto-->
+        <div class="descripcion">
+            <p>Nacionalidad - Año - Género</p>
+            <p>Sipnópsis</p>
+            <p>En un futuro distópico, la humanidad se encuentra al borde del colapso tras décadas de guerra y desastres
+                naturales. En medio del caos, un grupo de rebeldes liderados por un carismático ex soldado, se levanta
+                contra un régimen opresivo que controla la sociedad con puño de hierro.</p>
+        </div>
+
+        <!-- Zona de contenido multimedia y valoraciones-->
+        <div class="contenidos">
+            <!-- Zona de contenido multimedia: imágen y video -->
+            <div class="zona z_multimedia">
+                <!-- Zona de imagen -->
+                <div class="z_multimedia_img">
+                    <img id="z_multimediad_img_img" src="./assets/img/pel_acc_01.png" alt="Ordenador con código">
+                </div>
+
+                <!-- Zona de video -->
+                <div class="z_multimedia_video">
+                    <p>Video</p>
+                </div>
+            </div>
+
+            <!-- Zona de valoraciones -->
+            <div class="zona z_comen_valor">
+                <!-- Campos de usuario -->
+                <div class="z_campos">
+                    <!-- Zona de login -->
+                    <div class="c_usuario">
+                        <label>Usuario:</label>
+                        <br>
+                        <input type="text">
+
+                    </div>
+
+                    <!-- Zona de edición de valoraciones y comentarios -->
+                    <div class="c_valoraciones">
+                        <label>Valoración</label>
+                        <br>
+                        <input type="number">
+                        <br>
+                        <label>Comentario</label>
+                        <textarea rows="4"></textarea>
+                        <br>
+                        <button id="aceptar" type="button">Añadir</button>
+                        <button id="cancelar" type="button">Limpiar</button>
+                    </div>
+                </div>
+
+                <!-- Zona donde se muestran los comentarios y valoraciones introducidas-->
+                <div class="z_valoraciones">
+                    <p>Insertar los comentarios - Usuario - Película - Valoración y Comentario</p>
+                    <p>Insertar los comentarios - Usuario - Película - Valoración y Comentario</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie de Página -->
+        <footer>
+            <h2>Configuración</h2>
+            <select class="filtro">
+                <option value="peli">peli</option>
+                <option value="peli">peli</option>
+            </select>
+            <p>Imagenes generadas con IA - https://www.artguru.ai/es/</p>
+        </footer>
+    </div>
+</body>
+</html>

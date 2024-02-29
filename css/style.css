@@ -1,0 +1,282 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Contenedor principal de la maqueta */
+#contenedor_1 {
+  display: grid;
+  /* Definimos las columnas y filas */
+  grid-template-columns: 15% 25% 1fr;
+  grid-template-rows: auto auto auto auto 120px auto;
+  /* Definimos la seoaración */
+  grid-gap: 5px;
+  /* Definimos las celdas*/
+  grid-template-areas:
+    "nav header header "
+    "nav pelicula imagenes"
+    "nav pelicula contenidos"
+    "nav descripcion contenidos"
+    "nav descripcion contenidos"
+    "footer footer footer";
+}
+
+/* Se delimitan las zonas con bordes */
+header,
+nav,
+footer,
+.imagenes,
+.pelicula,
+.complemento,
+.descripcion {
+  border-radius: 10px;
+  border: black 2px solid;
+}
+
+/* Definición de la cabecera con un flexbox */
+header {
+  /* Definimos el area de nuestro elemento*/
+  grid-area: header;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "mi_fuente";
+  font-size: 14px;
+  color: green;
+}
+
+/* Definición la zona de navegación con un flexbox */
+nav {
+  /* Definimos el area de nuestro elemento*/
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* Imagenes principales de las películas*/
+nav img {
+  width: 80%;
+  height: 70%;
+  padding: 10px;
+}
+
+/* Zona de imagenes y circulos de navegación */
+/* Esta zona se divide de dos contenedores, las imágenes y los puntos de navegación que son opcionales */
+.imagenes {
+  grid-area: imagenes;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Zona que contiene las 5 imágenes de cada película */
+.imagenes .imagenes_img {
+  display: flex;
+  justify-content: center;
+}
+
+/* Imagen individual de la zona de imágens (recordemos que hay 5 imágenes por cada película y que cambian */
+.imagenes .imagenes_img img {
+  margin-top: 0px;
+  width: 40%;
+}
+
+/* Zona relacionada con los circulos que permiten seleccionar cada una de las imágenes relacionadas con la película */
+.imagenes .imagenes_nav {
+  display: flex;
+  height: 5%;
+  margin-bottom: 10px;
+}
+
+/* circulo que permite seleccionar cada una de las películas */
+.circulo_selector_img {
+  width: 10px;
+  height: 10px;
+  border: 2px solid black;
+  border-radius: 50%;
+  margin: 0px 10px;
+}
+
+/* Cada una de las estructuras creada para cada película se compone de la imagen y la descripción con figcaption */
+figure {
+  margin-top: 5px;
+  text-align: center;
+  margin: 10px;
+}
+
+figure figcaption {
+  text-align: center;
+}
+
+/* Zona relacionada con la zona multimedia y las valoraciones y/o votaciones*/
+.contenidos {
+  /* Definimos el area de nuestro elemento*/
+  grid-area: contenidos;
+  display: grid;
+  /* Definimos las columnas y filas */
+  grid-template-columns: 40% 1fr;
+  grid-template-rows: auto;
+  /* Definimos la seoaración */
+  grid-gap: 5px;
+  /* Definimos las celdas*/
+  grid-template-areas: "z_multimedia z_comen_valor";
+}
+
+/* Estilo de cada una de las zonas de multimedia y valoraciones*/
+/* Se configura como un flex en columna */
+.zona {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: black 2px solid;
+  border-radius: 10px;
+}
+
+/* Zona multimedia contendrá la imagen ampliada de las 5 imágenes y el video*/
+.z_multimedia {
+  grid-area: z_multimedia;
+}
+
+/* Zona relacionada con los comentarios y las valoraciones */
+.z_comen_valor {
+  grid-area: z_comen_valor;
+}
+
+/* Zona de imagen amplicada de las miniaturas de imágenes y del video*/
+/* Se implementa con un flex en columna*/
+.z_multimedia_img,
+.z_multimedia_video {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px red solid;
+  border-radius: 10px;
+  margin: 5px;
+  width: 95%;
+}
+
+/* Zona de Imagen amplicada de la zona multimeda, cada una de las imágenes de las miniaturas (5 imágenes)*/
+.z_multimedia_img {
+  height: 22rem;
+}
+
+/* Zona de video */
+.z_multimedia_video {
+  height: 16rem;
+}
+
+/* Imagen ampliada de la zonamultimedia */
+.z_multimedia_img img {
+  margin-top: 10px;
+  width: 60%;
+  height: 80%;
+  object-fit: fill;
+}
+
+/* Zona de comentarios y valoraciones. Se compone de dos zonas */
+.z_comen_valor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Zona donde se encuentra los campos. Son dos zonas, una para el usuario y otra para introducir los comentarios y la valoración */
+.z_campos {
+  display: flex;
+  justify-content: space-between;
+  border: solid 2px black;
+  border-radius: 10px;
+  width: 100%;
+  margin: 5px;
+}
+
+/* Hace refencia a los dos grupos de campos usuario y valoraciones y comentarios, los separa */
+.z_campos div {
+  margin: 10px;
+}
+
+.c_usuario,
+.c_valoraciones {
+  border: solid 2px green;
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgb(135, 209, 103);
+}
+
+/* Esto hace referencia a los label, inpus y texarea para posicionarlos*/
+.c_usuario *,
+.c_valoraciones * {
+  margin-left: 5px;
+  width: 95%;
+}
+
+.z_valoraciones {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  border-radius: 10px;
+  width: 100%;
+  margin: 5px;
+  height: 100%;
+  border: solid 2px black;
+  border-radius: 10px;
+}
+
+.z_comen_valor .campos div * {
+  width: 90%;
+  text-align: center;
+  margin: 2px;
+}
+
+/* Botones para añadir y reiniciar los valores que hay que añadir al formulario */
+button {
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 5px;
+  width: 80%;
+}
+
+#aceptar {
+  background-color: green;
+}
+#cancelar {
+  background-color: red;
+}
+
+/* Zona de la arátula amplia, se muestra la película seleccionada */
+.pelicula {
+  grid-area: pelicula;
+}
+
+/* Imagen de la caratura ampliada */
+.pelicula img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Zona de la descripción de la película, año, genero, etc. */
+.descripcion {
+  grid-area: descripcion;
+  display: flex;
+  flex-direction: column;
+}
+
+.descipcion div p {
+  padding: 2px 10px;
+}
+
+/* Zona de configuración, donde se pondrán todas las opciones necesarias para la configuración de la maqueta*/
+footer {
+  /* Definimos el area de nuestro elemento*/
+  grid-area: footer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
