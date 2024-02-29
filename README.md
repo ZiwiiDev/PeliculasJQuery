@@ -1,8 +1,5 @@
 # Último proyectito del Chicote
 ## Interacción con películas · JQuery
-
-Estoy en Oliver
-
 Estoy en Kevin
 
 AAAAAA
