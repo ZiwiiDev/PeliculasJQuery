@@ -15,3 +15,6 @@ function holamigo(amigo){
   return "Hola "+ amigo;
 }
 
+function holAAAAA(AAAA){
+  return "Hola "+ AAAA;
+}
