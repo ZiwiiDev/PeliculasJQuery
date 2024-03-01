@@ -19,6 +19,7 @@ $(document).ready(function () {
   configuracion();
 });
 
+
 function inicializar() {
   //Filtro para las pelis de la navegación
   $("nav img").css("filter", filtroInicial);
@@ -313,6 +314,8 @@ function actualizoDescripcionPelicula() {
       }
     },
   });
+
+
 }
 
 function habilitarValoraciones() {
