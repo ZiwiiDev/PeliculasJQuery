@@ -127,10 +127,13 @@
                     <div class="c_valoraciones">
                         <label>Valoración</label>
                         <br>
-                        <input type="number">
+                        <!-- Hemos puesto el "required" para doble seguración pero también lo comprobamos en el "script.js"-->
+                        <input type="number" min="0" max="5" required>
+                        <p id="salidaError"></p>
                         <br>
                         <label>Comentario</label>
-                        <textarea rows="4"></textarea>
+                        <!-- Hemos puesto el "required" para doble seguración pero también lo comprobamos en el "script.js"-->
+                        <textarea rows="4" required></textarea>
                         <br>
                         <button id="aceptar" type="button">Añadir</button>
                         <button id="cancelar" type="button">Limpiar</button>
@@ -139,8 +142,10 @@
 
                 <!-- Zona donde se muestran los comentarios y valoraciones introducidas-->
                 <div class="z_valoraciones">
-                    <p>Insertar los comentarios - Usuario - Película - Valoración y Comentario</p>
-                    <p>Insertar los comentarios - Usuario - Película - Valoración y Comentario</p>
+                    <div class="comentarios-info">
+                        <p>Total comentarios: </p>
+                        <p id="contadorComentarios"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,13 +153,14 @@
         <!-- Pie de Página -->
         <footer>
             <h2>Configuración</h2>
-            <select class="filtro">
-                <option value="peli">peli</option>
-                <option value="peli">peli</option>
+            <select class="seleccionPeli">
+                <option value="0" disabled selected>Seleccione una película</option>
+                <option value="buscandoanemo">Buscando a Nemo</option>
+                <option value="insideout">Inside Out</option>
+                <option value="monstruos">Monstruos S.A.</option>
             </select>
             <p>Imagenes generadas con IA - https://www.artguru.ai/es/</p>
         </footer>
     </div>
 </body>
-
 </html>
