@@ -276,16 +276,6 @@ button {
   padding: 2px 10px;
 }
 
-/* Zona de configuración, donde se pondrán todas las opciones necesarias para la configuración de la maqueta*/
-footer {
-  /* Definimos el area de nuestro elemento*/
-  grid-area: footer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 #salidaError {
   color: red;
   font-size: 17px;
@@ -330,5 +320,26 @@ footer {
   justify-content: end;
 }
 /* PONERLE UN SVG DE PAPELERA AL BOTÓN */
+
+/* Zona de configuración, donde se pondrán todas las opciones necesarias para la configuración de la maqueta*/
+footer {
+  /* Definimos el area de nuestro elemento*/
+  grid-area: footer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.configuracion{
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+
+}
+.casillas{
+  display: flex;
+  flex-direction: column;
+}
 
 

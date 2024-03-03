@@ -32,7 +32,7 @@
         <nav>
             <img src="./assets/img/buscandoanemo.webp" alt="Buscando a Nemo">
             <img src="./assets/img/insideout.jpeg" alt="Inside Out">
-            <img src="./assets/img/monstruos.jpg" alt="Monstruos SA">
+            <img src="./assets/img/monstruos.jpg" alt="Monstruos S.A.">
         </nav>
 
         <!-- Carátula ampliada -->
@@ -93,7 +93,8 @@
         <div class="descripcion">
             <p id="infoPelicula">Nacionalidad - Año - Género</p>
             <!-- <p id="infoPelicula" data-nacionalidad="" data-anio="" data-genero="">Nacionalidad - Año - Género</p> -->
-            <p id="sinopsis">Sipnópsis</p>
+            <p id="sinopsis">Sinópsis</p>
+            <img id="imgSinopsis" src="">
         </div>
 
         <!-- Zona de contenido multimedia y valoraciones-->
@@ -120,7 +121,6 @@
                         <label>Usuario:</label>
                         <br>
                         <input type="text">
-
                     </div>
 
                     <!-- Zona de edición de valoraciones y comentarios -->
@@ -153,13 +153,48 @@
         <!-- Pie de Página -->
         <footer>
             <h2>Configuración</h2>
-            <select class="seleccionPeli">
-                <option value="0" disabled selected>Seleccione una película</option>
-                <option value="./assets/img/buscandoanemo.webp">Buscando a Nemo</option>
-                <option value="./assets/img/insideout.jpeg">Inside Out</option>
-                <option value="./assets/img/monstruos.jpg">Monstruos S.A.</option>
-            </select>
-            <p>Imagenes generadas con IA - https://www.artguru.ai/es/</p>
+            <div class="configuracion">
+                <div>
+                    <select class="seleccionPeli">
+                        <option value="0" disabled selected>Seleccione una película</option>
+                        <option value="./assets/img/buscandoanemo.webp">Buscando a Nemo</option>
+                        <option value="./assets/img/insideout.jpeg">Inside Out</option>
+                        <option value="./assets/img/monstruos.jpg">Monstruos S.A.</option>
+                    </select>
+                </div>
+               
+    
+                <!-- Casilla para mostrar u ocultar la sinopsis -->
+                <div class="casillas">
+                    <div>
+                        <input type="checkbox" id="mostrarSinopsisCheckbox">
+                        <label for="mostrarSinopsisCheckbox">Mostrar/Ocultar Sinopsis</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="mostrarVideoCheckbox">
+                        <label for="mostrarVideoCheckbox">Mostrar/Ocultar Vídeo</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="invertirImagenesCheckbox">
+                        <label for="invertirImagenesCheckbox">Cambiar Orden de Imágenes</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="carruselImagenesCheckbox">
+                        <label for="carruselImagenesCheckbox">Carrusel de Imágenes</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="desactivarEdicionCheckbox">
+                        <label for="desactivarEdicionCheckbox">Desactivar Edición</label>
+                    </div>
+                    <div>
+                        <label for="comienzoVideoCheckbox">Comienzo del Vídeo: </label>
+                        <input type="number" id="comienzoVideoCheckbox" min="0" max="20">
+                    </div>
+
+                    
+
+                </div>
+            </div>
         </footer>
     </div>
 </body>
