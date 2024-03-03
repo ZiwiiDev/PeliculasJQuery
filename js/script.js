@@ -33,6 +33,75 @@ function inicializar() {
   $(".z_valoraciones p").css("filter", "blur(5px)");
   $(".z_valoraciones button").css("filter", "blur(5px)");
   $(".c_usuario input").attr("disabled", "disabled");
+  $(".casillas input").attr("disabled", "disabled");
+}
+
+let peliculaSeleccionada = "";
+function getPeliculaSeleccionada() {
+  $("nav img").click(function () {
+    peliculaSeleccionada = $(this).attr("src");
+  }),
+    $(".seleccionPeli").change(function () {
+      peliculaSeleccionada = $(this).val();
+    });
+  return peliculaSeleccionada;
+}
+
+function cambioPeli(rutaImg) {
+  let peli = obtenerNombrePuroRutaPelicula(rutaImg);
+
+  //Para poner la carátula en grande
+  let imagen = obtenerSrcImgCaratula(peli);
+
+  // PREGUNTAR AL PROFESOR COMO HACERLO AL REVÉS
+  $("#caratula_ampliada")
+    .slideUp("slow", function () {
+      $("#caratula_ampliada").attr("src", imagen);
+    })
+    .slideDown("slow");
+
+  //La variable nombre es para obtener exactamente el nombre de la peli
+
+  $(".imagenes_img_img").css("filter", filtroInicial);
+  //Para insertar los personajes de cada peli
+  $(".imagenes_img_img").each(function (index) {
+    let imgSrc = obtenerSrcImg(peli, index);
+    $(this).attr("src", imgSrc);
+
+    // PREGUNTAR AL PROFESOR SI HACERLO CON DATA.* O NO
+    //$(this).eq(index).attr("src", obtenerSrcImg(parseInt($(this).data("pos"))));
+  });
+  //Para poner el nombre de los personajes de cada peli
+  $("figcaption").each(function (index) {
+    let nombrePersonaje = obtenerNombrePersonaje(peli, index);
+    $(this).html(nombrePersonaje);
+  });
+  //Cambio de título
+  let titulo = obtenerTitulo(peli);
+  $("header h1").html(titulo);
+  //Puesta de vídeo
+  let video = obtenerSrcVideo(peli);
+  $("video").attr("src", video);
+
+  //Reseteo de los otros campos
+  $("#z_multimedia_img_img").attr("src", "");
+  $(".circulo_selector_img").css("background-color", "white");
+  $(".circulo_selector_img").css("width", "10px");
+  $(".circulo_selector_img").css("height", "10px");
+
+  //Habilitar usuario
+  $(".c_usuario input").removeAttr("disabled");
+  //Habilitar casillas
+  $(".casillas input").removeAttr("disabled");
+
+  // ACTUALIZACION DE DATOS DE LA PELI
+  let datosPelicula = obtenerDatosPelicula(peli);
+  if (datosPelicula) {
+    let infoPelicula = `${datosPelicula.nacionalidad} - ${datosPelicula.anio} - ${datosPelicula.genero}`;
+    $("#infoPelicula").text(infoPelicula);
+    $("#sinopsis").text(datosPelicula.sinopsis);
+  }
+  //Filtros de gris y color en el clicado
 }
 
 /* Función que realiza el cambio de los elementos según la peli seleccionada
@@ -43,53 +112,7 @@ function cargar_pelicula() {
       //Para poner la carátula en grande
       let rutaImg = $(this).attr("src");
 
-      // PREGUNTAR AL PROFESOR COMO HACERLO AL REVÉS
-      $("#caratula_ampliada")
-        .slideUp("slow", function () {
-          $("#caratula_ampliada").attr("src", rutaImg);
-        })
-        .slideDown("slow");
-
-      //La variable nombre es para obtener exactamente el nombre de la peli
-      let nombre = obtenerNombrePuroRutaPelicula(rutaImg);
-      $(".imagenes_img_img").css("filter", filtroInicial);
-      //Para insertar los personajes de cada peli
-      $(".imagenes_img_img").each(function (index) {
-        let imgSrc = obtenerSrcImg(nombre, index);
-        $(this).attr("src", imgSrc);
-
-        // PREGUNTAR AL PROFESOR SI HACERLO CON DATA.* O NO
-        //$(this).eq(index).attr("src", obtenerSrcImg(parseInt($(this).data("pos"))));
-      });
-      //Para poner el nombre de los personajes de cada peli
-      $("figcaption").each(function (index) {
-        let nombrePersonaje = obtenerNombrePersonaje(nombre, index);
-        $(this).html(nombrePersonaje);
-      });
-      //Cambio de título
-      let titulo = obtenerTitulo(nombre);
-      $("header h1").html(titulo);
-      //Puesta de vídeo
-      let video = obtenerSrcVideo(nombre);
-      $("video").attr("src", video);
-
-      //Reseteo de los otros campos
-      $("#z_multimedia_img_img").attr("src", "");
-      $(".circulo_selector_img").css("background-color", "white");
-      $(".circulo_selector_img").css("width", "10px");
-      $(".circulo_selector_img").css("height", "10px");
-
-      //Habilitar usuario
-      $(".c_usuario input").removeAttr("disabled");
-
-      // ACTUALIZACION DE DATOS DE LA PELI
-
-      let datosPelicula = obtenerDatosPelicula(nombre);
-      if (datosPelicula) {
-        let infoPelicula = `${datosPelicula.nacionalidad} - ${datosPelicula.anio} - ${datosPelicula.genero}`;
-        $("#infoPelicula").text(infoPelicula);
-        $("#sinopsis").text(datosPelicula.sinopsis);
-      }
+      cambioPeli(rutaImg);
       //Filtros de gris y color en el clicado
       $("nav img").removeClass("clicked");
       $(this).addClass("clicked");
@@ -111,6 +134,150 @@ function cargar_pelicula() {
       } //end if
     },
   });
+}
+
+function configuracion() {
+  $(".seleccionPeli").on({
+    change: function () {
+      let rutaImagenSeleccionada = $(this).val();
+      cambioPeli(rutaImagenSeleccionada);
+
+      $("nav img").each(function () {
+        if ($(this).attr("src") == rutaImagenSeleccionada) {
+          $("nav img").removeClass("clicked");
+          $(this).addClass("clicked");
+          $("nav img").css("filter", filtroInicial);
+          $(this).css("filter", "none");
+          $("nav img").css("border", "none");
+          $(this).css("border", "3px inset purple");
+          $("nav img").css("box-shadow", "none");
+          $(this).css("box-shadow", "0px 0px 10px black");
+        }
+      });
+    },
+  });
+
+  $("#mostrarSinopsisCheckbox").on({
+    change: function () {
+      if ($(this).is(":checked")) {
+        $("#sinopsis").slideUp("slow", function () {
+          $("#imgSinopsis").attr("src", peliculaSeleccionada);
+          $("#sinopsis").hide();
+        });
+        $("#imgSinopsis").slideDown("slow");
+      } else {
+        $("#imgSinopsis")
+          .slideUp("slow", function () {
+            $("#imgSinopsis").attr("src", "");
+            $("#sinopsis").show();
+          })
+          .slideDown("slow");
+      }
+    },
+  });
+
+  $("#mostrarVideoCheckbox").on({
+    change: function () {
+      if ($(this).is(":checked")) {
+        $(".z_multimedia_video").fadeOut("slow");
+        $(".z_multimedia_img").css("border", "none");
+        $("#z_multimedia_img_img").css("transform", "scale(1.5)");
+      } else {
+        $(".z_multimedia_video").fadeIn("slow");
+        $("#z_multimedia_img_img").css("transform", "scale(1)");
+      }
+    },
+  });
+
+  $("#invertirImagenesCheckbox").on({
+    change: function () {
+      if ($(this).is(":checked")) {
+        $("nav").fadeOut("slow", function () {
+          $("nav").css("flex-direction", "column-reverse").fadeIn("slow");
+        });
+      } else {
+        $("nav").fadeOut("slow", function () {
+          $("nav").css("flex-direction", "column").fadeIn("slow");
+        });
+      }
+    },
+  });
+
+  let esRepetido = false;
+  function repetir() {
+    if (esRepetido) {
+      $(".imagenes_img_img").fadeToggle(2000, repetir);
+    }
+  }
+
+  $("#carruselImagenesCheckbox").on({
+    change: function () {
+      if ($(this).is(":checked")) {
+        esRepetido = true;
+        repetir();
+      } else {
+        esRepetido = false;
+        $(".imagenes_img_img").stop(true, true).fadeIn(2000);
+      }
+    },
+  });
+
+  $(".imagenes_img_img, .circulo_selector_img").on({
+    click: function () {
+      if ($("#carruselImagenesCheckbox").is(":checked")) {
+        esRepetido = false;
+        $(".imagenes_img_img").stop(true, true).fadeIn(2000);
+        $("#carruselImagenesCheckbox").prop("checked", false);
+      }
+    },
+  });
+
+  $("#desactivarEdicionCheckbox").on({
+    change: function () {
+      if ($(this).is(":checked")) {
+        $(".z_campos").hide();
+        $(".c_valoraciones").hide();
+        $(".comentarios-info").css("filter", "blur(0)");
+        $(".comentario button").hide();
+        if ($(".c_usuario input").val().trim() === "") {
+          $(".z_valoraciones p").css("filter", "blur(0)");
+        }
+      } else {
+        $(".z_campos").show();
+        $(".c_valoraciones").show();
+        $(".comentario button").show();
+        $(".comentario button").css("filter", "blur(0)");
+      }
+    },
+  });
+  $("#comienzoVideoCheckbox").on({
+    input: function () {
+      let empiezaSegundos = $(this).val();
+      if (empiezaSegundos >= 0 && empiezaSegundos <= 20) {
+        let rutaVideo = $("#video").attr("src");
+
+        // Variable que verifica si ya hay un fragmento
+        let fragmentoTiempo = "";
+        if (rutaVideo.includes("#t=")) {
+          // Compruebo si existe un fragmento de tiempo y lo conservo
+          fragmentoTiempo = rutaVideo.split("#t=")[1];
+
+          // Quito el fragmento de tiempo de la ruta original
+          rutaVideo = rutaVideo.split("#t=")[0];
+        }
+
+        // Creo el nuevo fragmento de vídeo
+        let nuevoFragmentoTiempo = "#t=" + empiezaSegundos;
+
+        // Creo la nueva ruta de vídeo
+        let nuevaRutaVideo = rutaVideo + nuevoFragmentoTiempo;
+
+        // Actualizo la ruta
+        $("#video").attr("src", nuevaRutaVideo);
+      } 
+    },
+  });
+
 }
 
 //Función para que se ponga el personaje en grande según clickemos
@@ -230,7 +397,6 @@ function datosFormulario() {
           );
           contadorComentarios++;
           $("#contadorComentarios").html(contadorComentarios);
-
           $("#eliminarComentario").on({
             click: function () {
               // Selecciono el elemento directamente anterior al elemento actual (botón de eliminar)
@@ -390,93 +556,6 @@ function obtenerNombreUsuario(comentario) {
   return usuario;
 }
 
-// FUNCIONA PERO HAY QUE VER CÓMO OBTENER REALMENTE LA PELI SELECCIONADA PUESTO QUE EN LOS COMENTARIOS Y EN LOS BOTONES, MANTIENE
-// LA PELI ANTERIOR (lo de la variable de imagenClicada)
-function cambioPeli(rutaImg) {
-  let peli = obtenerNombrePuroRutaPelicula(rutaImg);
-
-  //Para poner la carátula en grande
-  let imagen = obtenerSrcImgCaratula(peli);
-
-  // PREGUNTAR AL PROFESOR COMO HACERLO AL REVÉS
-  $("#caratula_ampliada")
-    .slideUp("slow", function () {
-      $("#caratula_ampliada").attr("src", imagen);
-    })
-    .slideDown("slow");
-
-  //La variable nombre es para obtener exactamente el nombre de la peli
-
-  $(".imagenes_img_img").css("filter", filtroInicial);
-  //Para insertar los personajes de cada peli
-  $(".imagenes_img_img").each(function (index) {
-    let imgSrc = obtenerSrcImg(peli, index);
-    $(this).attr("src", imgSrc);
-
-    // PREGUNTAR AL PROFESOR SI HACERLO CON DATA.* O NO
-    //$(this).eq(index).attr("src", obtenerSrcImg(parseInt($(this).data("pos"))));
-  });
-  //Para poner el nombre de los personajes de cada peli
-  $("figcaption").each(function (index) {
-    let nombrePersonaje = obtenerNombrePersonaje(peli, index);
-    $(this).html(nombrePersonaje);
-  });
-  //Cambio de título
-  let titulo = obtenerTitulo(peli);
-  $("header h1").html(titulo);
-  //Puesta de vídeo
-  let video = obtenerSrcVideo(peli);
-  $("video").attr("src", video);
-
-  //Reseteo de los otros campos
-  $("#z_multimedia_img_img").attr("src", "");
-  $(".circulo_selector_img").css("background-color", "white");
-  $(".circulo_selector_img").css("width", "10px");
-  $(".circulo_selector_img").css("height", "10px");
-
-  //Habilitar usuario
-  $(".c_usuario input").removeAttr("disabled");
-
-  // ACTUALIZACION DE DATOS DE LA PELI
-  let datosPelicula = obtenerDatosPelicula(peli);
-  if (datosPelicula) {
-    let infoPelicula = `${datosPelicula.nacionalidad} - ${datosPelicula.anio} - ${datosPelicula.genero}`;
-    $("#infoPelicula").text(infoPelicula);
-    $("#sinopsis").text(datosPelicula.sinopsis);
-  }
-  //Filtros de gris y color en el clicado
-  // ESTO HAY QUE ADAPTARLO PARA QUE SE HAGA CON EL SELECT DE LAS PELIS Y NO CLICANDO EN EL MENU
-  //Esto solo funciona si es haciendo click en las imagenes del navegador
-  $("nav img").removeClass("clicked");
-  $(this).addClass("clicked");
-  $("nav img").css("filter", filtroInicial);
-  $(this).css("filter", "none");
-  $("nav img").css("border", "none");
-  $(this).css("border", "3px inset purple");
-  $("nav img").css("box-shadow", "none");
-  $(this).css("box-shadow", "0px 0px 10px black");
-}
-
-// FUNCIONA PERO FALTAN DETALLES (que cuando se seleccione una peli con el select, la imagen del navegador a la peli correspondiente se quede 
-// a color)
-let peliculaSeleccionada = "";
-function getPeliculaSeleccionada() {
-  $("nav img").click(function () {
-    peliculaSeleccionada = $(this).attr("src");
-  }),
-    $(".seleccionPeli").change(function () {
-      peliculaSeleccionada = $(this).val();
-    });
-  return peliculaSeleccionada;
-}
-function configuracion() {
-  $(".seleccionPeli").on({
-    change: function () {
-      cambioPeli($(this).val());
-    },
-  });
-}
-
 // PREGUNTAR AL PROFESOR SI ESTO ESTÁ BIEN:
 /*
 - PREGUNTAR SI EL NÚMERO DE COMENTARIOS Y VALORACIÓN VA AQUÍ O EN LA ZONA DE LA DERECHA -
@@ -512,4 +591,11 @@ Debe incluirse: título año, nacionalidad, género y sinopsis.
 Deben mostrarse máximo de 5 imágenes, con una numeración indicando género y número, por
 ejemplo, Acción 1, Acción 2, etc. Así la película principal es acción (elimino la tilde), las imágenes se denominarán
 accion_01.xxx, accion_02.xxx, etc, donde xxx es la extensión de la imagen.
+
+- PREGUNTAR SI NO HAY IMAGEN DE ACTOR QUÉ HACER -
+c) Casilla para mostrar u ocultar el video. En caso de ocultarse el video la imagen debe ocupar más
+espacio del que ocupa cuando está el video. Realizarlo con un fadeOut
+
+- PREGUNTAR QUÉ HAY QUE HACER CON EL COLOR SELECCIONADO DEL SELECT -
+h) Define un color con una variable que puedan ser cambiado de forma interactiva.
 */
