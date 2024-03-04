@@ -1,8 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Outfit:wght@200;300;400;500;600;700;800");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Outfit:wght@200;300;400;500;600;700;800&family=Roboto:wght@100;300;400&display=swap');
 
 * {
   box-sizing: border-box;
-  font-family: "Outfit", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Contenedor principal de la maqueta */
@@ -11,7 +12,7 @@
   /* Definimos las columnas y filas */
   grid-template-columns: 15% 25% 1fr;
   grid-template-rows: auto auto auto auto 120px auto;
-  /* Definimos la seoaración */
+  /* Definimos la separación */
   grid-gap: 5px;
   /* Definimos las celdas*/
   grid-template-areas:
@@ -42,9 +43,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "mi_fuente";
+  font-family: "Outfit";
   font-size: 14px;
-  color: green;
+}
+
+body:not(header h1) {
+  font-family: "Outfit";
 }
 
 /* Definición la zona de navegación con un flexbox */
@@ -55,10 +59,12 @@ nav {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  
 }
 
 /* Imagenes principales de las películas*/
 nav img {
+  position: relative;
   width: 80%;
   height: 70%;
   padding: 10px;
@@ -143,6 +149,7 @@ figure figcaption {
 /* Zona multimedia contendrá la imagen ampliada de las 5 imágenes y el video*/
 .z_multimedia {
   grid-area: z_multimedia;
+  gap: 10px;
 }
 
 /* Zona relacionada con los comentarios y las valoraciones */
@@ -158,7 +165,7 @@ figure figcaption {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px red solid;
+  border: 2px purple solid;
   border-radius: 10px;
   margin: 5px;
   width: 95%;
@@ -172,6 +179,10 @@ figure figcaption {
 /* Zona de video */
 .z_multimedia_video {
   height: 16rem;
+  
+}
+#video{
+  border-radius: 5px;
 }
 
 /* Imagen ampliada de la zonamultimedia */
@@ -263,6 +274,30 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 5px;
+}
+
+.modal{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  &>.cerrar{
+    font-size: 3rem;
+    color:white;
+    cursor: pointer;
+    height: fit-content;
+  }
+  &> .modal-content{
+    width: 40vw;
+    height: auto;
+    filter: blur(0px);
+  }
 }
 
 /* Zona de la descripción de la película, año, genero, etc. */
@@ -270,6 +305,8 @@ button {
   grid-area: descripcion;
   display: flex;
   flex-direction: column;
+  text-align: center;
+  padding-top: 3rem;
 }
 
 .descipcion div p {

@@ -1,12 +1,20 @@
-// Variables
-let filtroInicial = "grayscale(100%)"; // Filtro inicial para las imágenes
-let filtroHover = "grayscale(0%)"; // Filtro al pasar el ratón sobre las imágenes
-let numPeliculas = 3; // Número de películas en el <nav>
-let efectoSlideUp = "slow"; // Duración del slideUp
-let efectoSlideDown = "slow"; // Duración del slideDown
-let bordeSeleccionado = "2px solid red"; // Estilo del borde para la película seleccionada
+/*------------------------------------------------------------------*/
+/* VARIABLES */
+// Filtros de imagen
+const filtroInicial = "grayscale(100%)"; // Filtro inicial para las imágenes
+const filtroHover = "grayscale(0%)"; // Filtro al pasar el ratón sobre las imágenes
 
+// Estilo del borde para la película seleccionada
+const bordeSeleccionado = "2px solid red"; // Estilo del borde para la película seleccionada
+
+// Tiempos de animación
+const tiempoFadeInCarrousel = 3000;
+const tiempoFadeOutCarrousel = 3000;
+const tiempoSlow = "slow";
+/*------------------------------------------------------------------*/
+// Cargo el JQuery
 $(document).ready(function () {
+  // Llamadas a las funciones que afectan al HTML al cargar el documento
   cargar_pelicula();
   inicializar();
   personaje();
@@ -17,24 +25,28 @@ $(document).ready(function () {
   configuracion();
   getPeliculaSeleccionada();
 });
-
+/*------------------------------------------------------------------*/
 //-----------------------------------//
 //   FUNCIONES QUE AFECTAN AL HTML   //
 //-----------------------------------//
 
+// Función para inicializar la página
 function inicializar() {
-  //Filtro para las pelis de la navegación
+  // Filtro para las pelis de la navegación
   $("nav img").css("filter", filtroInicial);
-  //Deshabilitado del formulario
-  $(".c_valoraciones input").attr("disabled", "disabled");
-  $(".c_valoraciones textarea").attr("disabled", "disabled");
-  $(".c_valoraciones button").attr("disabled", "disabled");
-  //Deshabilitado de las valoraciones
-  $(".z_valoraciones p").css("filter", "blur(5px)");
-  $(".z_valoraciones button").css("filter", "blur(5px)");
-  $(".c_usuario input").attr("disabled", "disabled");
-  $(".casillas input").attr("disabled", "disabled");
+
+  // Deshabilitado del formulario
+  $(
+    ".c_valoraciones input, .c_valoraciones textarea, .c_valoraciones button"
+  ).attr("disabled", "disabled");
+
+  // Deshabilitado de las valoraciones
+  $(".c_usuario input, .casillas input, .casillas select").attr(
+    "disabled",
+    "disabled"
+  );
 }
+/*------------------------------------------------------------------*/
 
 let peliculaSeleccionada = "";
 function getPeliculaSeleccionada() {
@@ -50,41 +62,39 @@ function getPeliculaSeleccionada() {
 function cambioPeli(rutaImg) {
   let peli = obtenerNombrePuroRutaPelicula(rutaImg);
 
-  //Para poner la carátula en grande
+  // Para poner la carátula en grande
   let imagen = obtenerSrcImgCaratula(peli);
 
-  // PREGUNTAR AL PROFESOR COMO HACERLO AL REVÉS
   $("#caratula_ampliada")
-    .slideUp("slow", function () {
+    .slideUp(tiempoSlow, function () {
       $("#caratula_ampliada").attr("src", imagen);
     })
-    .slideDown("slow");
+    .slideDown(tiempoSlow);
 
-  //La variable nombre es para obtener exactamente el nombre de la peli
+  // La variable nombre es para obtener exactamente el nombre de la peli
 
   $(".imagenes_img_img").css("filter", filtroInicial);
-  //Para insertar los personajes de cada peli
+  // Para insertar los personajes de cada peli
   $(".imagenes_img_img").each(function (index) {
     let imgSrc = obtenerSrcImg(peli, index);
     $(this).attr("src", imgSrc);
-
-    // PREGUNTAR AL PROFESOR SI HACERLO CON DATA.* O NO
-    //$(this).eq(index).attr("src", obtenerSrcImg(parseInt($(this).data("pos"))));
   });
-  //Para poner el nombre de los personajes de cada peli
+
+  // Para poner el nombre de los personajes de cada peli
   $("figcaption").each(function (index) {
     let nombrePersonaje = obtenerNombrePersonaje(peli, index);
     $(this).html(nombrePersonaje);
   });
-  //Cambio de título
+
+  // Cambio de título
   let titulo = obtenerTitulo(peli);
   $("header h1").html(titulo);
-  //Puesta de vídeo
+  // Puesta de vídeo
   let video = obtenerSrcVideo(peli);
   $("video").attr("src", video);
 
-  //Reseteo de los otros campos
-  $("#z_multimedia_img_img").attr("src", "");
+  // Reseteo de los otros campos
+  $("#z_multimedia_img_img").attr("src", "./assets/img/donald.webp");
   $(".circulo_selector_img").css("background-color", "white");
   $(".circulo_selector_img").css("width", "10px");
   $(".circulo_selector_img").css("height", "10px");
@@ -93,6 +103,7 @@ function cambioPeli(rutaImg) {
   $(".c_usuario input").removeAttr("disabled");
   //Habilitar casillas
   $(".casillas input").removeAttr("disabled");
+  $(".casillas select").removeAttr("disabled");
 
   // ACTUALIZACION DE DATOS DE LA PELI
   let datosPelicula = obtenerDatosPelicula(peli);
@@ -101,7 +112,6 @@ function cambioPeli(rutaImg) {
     $("#infoPelicula").text(infoPelicula);
     $("#sinopsis").text(datosPelicula.sinopsis);
   }
-  //Filtros de gris y color en el clicado
 }
 
 /* Función que realiza el cambio de los elementos según la peli seleccionada
@@ -160,18 +170,22 @@ function configuracion() {
   $("#mostrarSinopsisCheckbox").on({
     change: function () {
       if ($(this).is(":checked")) {
-        $("#sinopsis").slideUp("slow", function () {
-          $("#imgSinopsis").attr("src", peliculaSeleccionada);
-          $("#sinopsis").hide();
+        $(".descripcion").slideUp(tiempoSlow, function () {
+          $(".pelicula").css("margin-top", "10rem");
+          $(".pelicula img").css("transform", "scaleY(1.2)");
+          $(".pelicula").css("border", "none");
         });
-        $("#imgSinopsis").slideDown("slow");
       } else {
-        $("#imgSinopsis")
-          .slideUp("slow", function () {
-            $("#imgSinopsis").attr("src", "");
-            $("#sinopsis").show();
+        $(".descripcion")
+          .slideDown(tiempoSlow, function () {
+            $(".pelicula").css("margin-top", "0");
+            $(".pelicula img").css("transform", "scaleY(1)");
+            $(".pelicula").css("transform", "scaleY(1)");
+            $(".pelicula").css("border", "");
+
+            // $("#sinopsis").show();
           })
-          .slideDown("slow");
+          .slideDown(tiempoSlow);
       }
     },
   });
@@ -179,11 +193,11 @@ function configuracion() {
   $("#mostrarVideoCheckbox").on({
     change: function () {
       if ($(this).is(":checked")) {
-        $(".z_multimedia_video").fadeOut("slow");
+        $(".z_multimedia_video").fadeOut(tiempoSlow);
         $(".z_multimedia_img").css("border", "none");
         $("#z_multimedia_img_img").css("transform", "scale(1.5)");
       } else {
-        $(".z_multimedia_video").fadeIn("slow");
+        $(".z_multimedia_video").fadeIn(tiempoSlow);
         $("#z_multimedia_img_img").css("transform", "scale(1)");
       }
     },
@@ -192,12 +206,12 @@ function configuracion() {
   $("#invertirImagenesCheckbox").on({
     change: function () {
       if ($(this).is(":checked")) {
-        $("nav").fadeOut("slow", function () {
-          $("nav").css("flex-direction", "column-reverse").fadeIn("slow");
+        $("nav").fadeOut(tiempoSlow, function () {
+          $("nav").css("flex-direction", "column-reverse").fadeIn(tiempoSlow);
         });
       } else {
-        $("nav").fadeOut("slow", function () {
-          $("nav").css("flex-direction", "column").fadeIn("slow");
+        $("nav").fadeOut(tiempoSlow, function () {
+          $("nav").css("flex-direction", "column").fadeIn(tiempoSlow);
         });
       }
     },
@@ -206,7 +220,7 @@ function configuracion() {
   let esRepetido = false;
   function repetir() {
     if (esRepetido) {
-      $(".imagenes_img_img").fadeToggle(2000, repetir);
+      $(".imagenes_img_img").fadeToggle(tiempoFadeOutCarrousel, repetir);
     }
   }
 
@@ -217,7 +231,7 @@ function configuracion() {
         repetir();
       } else {
         esRepetido = false;
-        $(".imagenes_img_img").stop(true, true).fadeIn(2000);
+        $(".imagenes_img_img").stop(true, true).fadeIn(tiempoFadeInCarrousel);
       }
     },
   });
@@ -246,10 +260,15 @@ function configuracion() {
         $(".z_campos").show();
         $(".c_valoraciones").show();
         $(".comentario button").show();
-        $(".comentario button").css("filter", "blur(0)");
+        if ($(".c_usuario input").val().length > 0) {
+          $(".comentario button").css("filter", "blur(0)");
+        } else {
+          $(".comentario button").css("filter", "blur(5px)");
+        }
       }
     },
   });
+
   $("#comienzoVideoCheckbox").on({
     input: function () {
       let empiezaSegundos = $(this).val();
@@ -274,10 +293,42 @@ function configuracion() {
 
         // Actualizo la ruta
         $("#video").attr("src", nuevaRutaVideo);
-      } 
+      }
     },
   });
 
+  $("#cambioColor").on({
+    input: function () {
+      let colorSeleccionado = $(this).val();
+      $("body").css("color", colorSeleccionado);
+    },
+  });
+
+  $("#cambioFuente").on({
+    change: function () {
+      let fuenteSeleccionada = $(this).val();
+      $("body").css("font-family", fuenteSeleccionada);
+    },
+  });
+
+  $("#caratula_ampliada").dblclick(function () {
+    let ventanaModal = "<div id='modal' class='modal'>" +
+    "<span class='cerrar'>&#10005</span>" +
+    "<img class='modal-content' src='" + $(this).attr("src") + "'></div>";
+
+    $("body").append(ventanaModal);
+    //$("body").css("overflow-y", "hidden");
+    let alturaBody = $("body").height();
+    $(".modal").css("height",alturaBody);
+
+    $(".cerrar").on({
+      click: function(){
+        $(".modal").remove();
+        $(this).remove();
+        //$("body").css("overflow-y", "auto");
+      },
+    });
+  });
 }
 
 //Función para que se ponga el personaje en grande según clickemos
@@ -322,6 +373,7 @@ function imgcirculoSelector() {
       });
   });
 }
+
 /* Función para que según la peli seleccionada y el botón clickado,
 se actualice la imagen del personaje en grande seleccionada */
 function circuloSelector() {
@@ -372,9 +424,9 @@ function habilitarValoraciones() {
         $(".c_valoraciones textarea").attr("disabled", "disabled");
         $(".c_valoraciones button").attr("disabled", "disabled");
         //Deshabilitado de las valoraciones
-        $(".z_valoraciones p").css("filter", "blur(5px)");
         $(".z_valoraciones button").css("cursor", "initial");
         $(".z_valoraciones button").css("filter", "blur(5px)");
+
         $(".z_valoraciones button").attr("disabled", "disabled");
       }
     },
@@ -433,6 +485,37 @@ function datosFormulario() {
 //         FUNCIONES DE APOYO        //
 //-----------------------------------//
 
+
+
+// NO FUNCIONA
+function paginacionNav() {
+  let posicionActual = 0;
+  let numPeliculas = $("nav img").length;
+  let alturaPelicula = $("nav img").height();
+  let alturaNav = $("nav").height();
+
+  $("flecha-arriba").on({
+    click: function() {
+      if (posicionActual > 0) {
+        posicionActual--;
+        $("nav").css("top", -posicionActual * alturaPelicula);
+      }
+    },
+  });
+
+  $("flecha-abajo").on({
+    click: function() {
+      if (posicionActual > 0) {
+        posicionActual++;
+        $("nav").css("top", posicionActual * alturaPelicula);
+      }
+    },
+  });
+}
+
+
+
+
 /* Función para que te devuelva el nombre de la peli según la ruta
 que se le introduzca */
 function obtenerNombrePuroRutaPelicula(ruta) {
@@ -443,6 +526,7 @@ function obtenerNombrePuroRutaPelicula(ruta) {
   let nombreArchivoSinExtension = partesNombreArchivo.join(".");
   return nombreArchivoSinExtension;
 }
+
 /*Función que recibe el nombre y una posición por parámetro y
 te devuelve la ruta de la imagen */
 function obtenerSrcImg(nombre, posicion) {
@@ -468,6 +552,13 @@ function obtenerSrcImg(nombre, posicion) {
       "../assets/img/randall.webp",
       "../assets/img/roz.webp",
     ],
+    toystory: [
+      "../assets/img/woody.jpeg",
+      "../assets/img/buzz.webp",
+      "../assets/img/rex.webp",
+      "../assets/img/slinky.png",
+      "../assets/img/perdigon.png",
+    ],
   };
   return peliculas[nombre][posicion];
 }
@@ -479,6 +570,7 @@ function obtenerNombrePersonaje(nombre, posicion) {
     buscandoanemo: ["Nemo", "Dory", "Marlin", "Crush", "Bruce"],
     insideout: ["Alegria", "Asco", "Gruñon", "Miedo", "Tristeza"],
     monstruos: ["Sully", "Boo", "Mike Wazowsky", "Randall", "Roz"],
+    toystory: ["Woody", "Buzz Lightyear", "Rex", "Slinky", "Perdigón"],
   };
   return peliculas[nombre][posicion];
 }
@@ -488,6 +580,7 @@ function obtenerSrcImgCaratula(nombre) {
     buscandoanemo: "./assets/img/buscandoanemo.webp",
     insideout: "./assets/img/insideout.jpeg",
     monstruos: "./assets/img/monstruos.jpg",
+    toystory: "./assets/img/toystory.jpg",
   };
   return caratula[nombre];
 }
@@ -499,6 +592,7 @@ function obtenerTitulo(nombre) {
     buscandoanemo: "Buscando a Nemo",
     insideout: "Inside Out",
     monstruos: "Monstruos S.A.",
+    toystory: "Toy Story",
   };
   return titulos[nombre];
 }
@@ -508,13 +602,14 @@ function obtenerSrcVideo(nombre) {
     buscandoanemo: "../assets/mp4/buscandoanemo.mp4",
     insideout: "../assets/mp4/insideout.mp4",
     monstruos: "../assets/mp4/monstruos.mp4",
+    toystory: "../assets/mp4/toystory.mp4",
   };
   return videos[nombre];
 }
 
-// CAMBIAR ESTO A DATA
 //He metido ID para que las busquedas sean más fáciles y así se puede realizar en diversas funciones
 // De este modo, toda la información de cada peli se encuentra con los id: "buscandoanemo", "insideout", "monstruos"
+
 function obtenerDatosPelicula(id) {
   let peliculas = [
     {
@@ -544,6 +639,15 @@ function obtenerDatosPelicula(id) {
       sinopsis:
         "Dos monstruos son empleados en una fábrica de sustos. Cuando descubren que una niña ha entrado en su mundo, intentan devolverla a casa antes de que sea demasiado tarde.",
     },
+    {
+      id: "toystory",
+      nombre: "Toy Story",
+      nacionalidad: "EEUU y UK",
+      anio: 1995,
+      genero: "Animación",
+      sinopsis:
+        "Los juguetes de Andy, un niño de seis años, temen que un nuevo regalo les sustituya en el corazón de su dueño. Woody, un vaquero que ha sido hasta ahora el juguete favorito, trata de tranquilizarlos hasta que aparece Buzz Lightyear. Lo peor es que el arrogante Buzz se cree que es una auténtico astronauta en plena misión para regresar a su planeta.",
+    },
   ];
 
   let peliculaEncontrada = peliculas.find((pelicula) => pelicula.id === id);
@@ -555,47 +659,3 @@ function obtenerNombreUsuario(comentario) {
   let usuario = comentario.substring(0, posicionPrimerGuion);
   return usuario;
 }
-
-// PREGUNTAR AL PROFESOR SI ESTO ESTÁ BIEN:
-/*
-- PREGUNTAR SI EL NÚMERO DE COMENTARIOS Y VALORACIÓN VA AQUÍ O EN LA ZONA DE LA DERECHA -
-Sinopsis: Deberá aparecer información sobre la película, año, nacionalidad, número de comentarios y valoración (estos dos elementos son dinámicos con respecto a lo introducido
-por los usuarios).
-
-- PREGUNTAR SI DESCRIPCIÓN ES EL NOMBRE DE CADA ACTOR -
-Imágenes: Deberán aparecer máximo cinco imágenes por película. Debajo de cada imagen
-debe aparecer descripción.
-
-- PREGUNTAR COMO HACER AL REVÉS EL slideUp y slideDown -
-Debe ocultarse con un efecto slideDown y mostrarse con slideUp
-
-- PREGUNTAR SI HACER LOS ACTORES CON DATA.* O NO -
-Los datos relacionados con la película como: título, nacionalidad, año, genero, etc. debe incluirse
-como atributos data-* a la imagen, desde aquí se cogerá esta información para ir actualizando la
-maqueta.
-
-- PREGUNTAR SI EN VEZ DE DESCRIPCIÓN ES GÉNERO -
-Sinopsis: Año, Nacionalidad, descripción
-
-- PREGUNTAR SI SOLO TIENE QUE SER LO QUE PIDE O LO QUE TENEMOS ESTÁ BIEN (CAMBIA CARÁTULA, ACTORES...) -
-Define una función que sea cargar_pelicula, que seleccione la película indicada y carga toda la
-información relacionada con la película en la maqueta: título, sinopsis y todas las imágenes
-relacionadas.
-
-- DECIR QUE LE HEMOS PUESTO FUENTE A TODO, NO SÓLO AL TÍTULO PORQUE QUEDA MEJOR -
-
-- PONE ACTUALIZAR EN SINOPSIS TÍTULO Y SINOPSIS PERO NO PUEDE SER -
-Debe incluirse: título año, nacionalidad, género y sinopsis.
-
-- EN IMÁGENES HAY QUE PONER ESO? O CON LOS NOMBRES ESTÁ BIEN, COMO LO TENEMOS -
-Deben mostrarse máximo de 5 imágenes, con una numeración indicando género y número, por
-ejemplo, Acción 1, Acción 2, etc. Así la película principal es acción (elimino la tilde), las imágenes se denominarán
-accion_01.xxx, accion_02.xxx, etc, donde xxx es la extensión de la imagen.
-
-- PREGUNTAR SI NO HAY IMAGEN DE ACTOR QUÉ HACER -
-c) Casilla para mostrar u ocultar el video. En caso de ocultarse el video la imagen debe ocupar más
-espacio del que ocupa cuando está el video. Realizarlo con un fadeOut
-
-- PREGUNTAR QUÉ HAY QUE HACER CON EL COLOR SELECCIONADO DEL SELECT -
-h) Define un color con una variable que puedan ser cambiado de forma interactiva.
-*/
