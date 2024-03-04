@@ -33,11 +33,14 @@
             <img src="./assets/img/buscandoanemo.webp" alt="Buscando a Nemo">
             <img src="./assets/img/insideout.jpeg" alt="Inside Out">
             <img src="./assets/img/monstruos.jpg" alt="Monstruos S.A.">
+            <img src="./assets/img/toystory.jpg" alt="Toy Story">
+            <div class="flecha-arriba">👆⬆</div>
+            <div class="flecha-abajo">👇⬇</div>
         </nav>
 
         <!-- Carátula ampliada -->
         <div class="pelicula">
-            <img id="caratula_ampliada" src="" alt="Caratula">
+            <img id="caratula_ampliada" src="./assets/img/logoDisney.png" alt="Caratula">
         </div>
 
         <!-- Zona de imágenes relacionadas con la película -->
@@ -48,23 +51,23 @@
 
                 <!-- Imagen individual, se repite 5 veces -->
                 <figure>
-                    <img class="imagenes_img_img" src="" alt="Imagen de personaje">
+                    <img class="imagenes_img_img" src="./assets/img/mickeymouse.webp" alt="Imagen de personaje">
                     <figcaption></figcaption>
                 </figure>
                 <figure>
-                    <img class="imagenes_img_img" src="" alt="Imagen de personaje">
+                    <img class="imagenes_img_img" src="./assets/img/minnie.jpg" alt="Imagen de personaje">
                     <figcaption></figcaption>
                 </figure>
                 <figure>
-                    <img class="imagenes_img_img" src="" alt="Imagen de personaje">
+                    <img class="imagenes_img_img" src="./assets/img/pluto.jpg" alt="Imagen de personaje">
                     <figcaption></figcaption>
                 </figure>
                 <figure>
-                    <img class="imagenes_img_img" src="" alt="Imagen de personaje">
+                    <img class="imagenes_img_img" src="./assets/img/goofy.webp" alt="Imagen de personaje">
                     <figcaption></figcaption>
                 </figure>
                 <figure>
-                    <img class="imagenes_img_img" src="" alt="Imagen de personaje">
+                    <img class="imagenes_img_img" src="./assets/img/donaldantiguo.jpg" alt="Imagen de personaje">
                     <figcaption></figcaption>
                 </figure>
             </div>
@@ -92,18 +95,17 @@
         <!-- Descripción de la película, se debe incluir, año, genero, nacionalidad y texto-->
         <div class="descripcion">
             <p id="infoPelicula">Nacionalidad - Año - Género</p>
-            <!-- <p id="infoPelicula" data-nacionalidad="" data-anio="" data-genero="">Nacionalidad - Año - Género</p> -->
             <p id="sinopsis">Sinópsis</p>
-            <img id="imgSinopsis" src="">
         </div>
 
         <!-- Zona de contenido multimedia y valoraciones-->
         <div class="contenidos">
             <!-- Zona de contenido multimedia: imágen y video -->
             <div class="zona z_multimedia">
+                <h2>Personaje</h2>
                 <!-- Zona de imagen -->
                 <div class="z_multimedia_img">
-                    <img id="z_multimedia_img_img" src="" alt="Ordenador con código">
+                    <img id="z_multimedia_img_img" src="./assets/img/donald.webp" alt="">
                 </div>
 
                 <!-- Zona de video -->
@@ -190,9 +192,19 @@
                         <label for="comienzoVideoCheckbox">Comienzo del Vídeo: </label>
                         <input type="number" id="comienzoVideoCheckbox" min="0" max="20">
                     </div>
-
-                    
-
+                    <div>
+                        <label for="cambioColor">Color del texto:</label>
+                        <input type="color" id="cambioColor">
+                    </div>
+                    <div>
+                        <label for="cambioFuente">Fuente de texto:</label>
+                        <select name="cambioFuente" id="cambioFuente">
+                            <option value="0" selected disabled>Seleccione una fuente</option>
+                            <option value="Poppins">Poppins</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Outfit">Outfit</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </footer>
