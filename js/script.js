@@ -32,22 +32,35 @@ $(document).ready(function () {
 
 // Función para inicializar la página
 function inicializar() {
-  // Filtro para las pelis de la navegación
+  // Aplico el filtro inicial para las pelis de la navegación
   $("nav img").css("filter", filtroInicial);
 
+  //Se selecciona la primera pelicula
+  peliculaSeleccionada = "./assets/buscandoanemo.webp";
+  cambioPeli(peliculaSeleccionada);
+
+  $("nav img:first").addClass("clicked");
+  $("nav img:first").css("filter", filtroHover);
+  
+  $("nav img:first").css("border", "3px inset purple");
+  $("nav img:first").css("box-shadow", "0px 0px 10px black");
+  
+  $(".imagenes_img_img:first").css("filter", filtroHover);
+  $(".circulo_selector_img:first").css("background-color", "black");
+  $(".circulo_selector_img:first").css("width", "15px");
+  $(".circulo_selector_img:first").css("height", "15px");
+
+  $("#z_multimedia_img_img").attr("src", "./assets/img/nemo.jpg");
+
   // Deshabilitado del formulario
-  $(
-    ".c_valoraciones input, .c_valoraciones textarea, .c_valoraciones button"
-  ).attr("disabled", "disabled");
+  $(".c_valoraciones input, .c_valoraciones textarea, .c_valoraciones button").attr("disabled", "disabled");
 
   // Deshabilitado de las valoraciones
-  $(".c_usuario input, .casillas input, .casillas select").attr(
-    "disabled",
-    "disabled"
-  );
+  $(".c_usuario input, .casillas input, .casillas select").attr("disabled","disabled");
 }
 /*------------------------------------------------------------------*/
-
+/*Función para ver qué pelicula se ha seleccionado, tanto clicando en las imágenes del navegador
+ o seleccionando la peli en el select de la configuración*/
 let peliculaSeleccionada = "";
 function getPeliculaSeleccionada() {
   $("nav img").click(function () {
@@ -57,23 +70,23 @@ function getPeliculaSeleccionada() {
       peliculaSeleccionada = $(this).val();
     });
   return peliculaSeleccionada;
-}
-
+}//end function getPeliculaSeleccionada()
+/*------------------------------------------------------------------*/
+// FUNCION PARA CAMBIAR DE PELICULA
 function cambioPeli(rutaImg) {
   let peli = obtenerNombrePuroRutaPelicula(rutaImg);
 
   // Para poner la carátula en grande
   let imagen = obtenerSrcImgCaratula(peli);
-
   $("#caratula_ampliada")
     .slideUp(tiempoSlow, function () {
       $("#caratula_ampliada").attr("src", imagen);
     })
     .slideDown(tiempoSlow);
 
-  // La variable nombre es para obtener exactamente el nombre de la peli
-
+  // Le cambio el filtro de la imagen
   $(".imagenes_img_img").css("filter", filtroInicial);
+  
   // Para insertar los personajes de cada peli
   $(".imagenes_img_img").each(function (index) {
     let imgSrc = obtenerSrcImg(peli, index);
@@ -89,18 +102,26 @@ function cambioPeli(rutaImg) {
   // Cambio de título
   let titulo = obtenerTitulo(peli);
   $("header h1").html(titulo);
+  
   // Puesta de vídeo
   let video = obtenerSrcVideo(peli);
   $("video").attr("src", video);
 
   // Reseteo de los otros campos
-  $("#z_multimedia_img_img").attr("src", "./assets/img/donald.webp");
   $(".circulo_selector_img").css("background-color", "white");
   $(".circulo_selector_img").css("width", "10px");
   $(".circulo_selector_img").css("height", "10px");
 
+  // Selección del primer personaje
+  $(".imagenes_img_img:first").css("filter", filtroHover);
+  $("#z_multimedia_img_img").attr("src",obtenerSrcImg(peli,0));
+  $(".circulo_selector_img:first").css("background-color", "black");
+  $(".circulo_selector_img:first").css("width", "15px");
+  $(".circulo_selector_img:first").css("height", "15px");
+
   //Habilitar usuario
   $(".c_usuario input").removeAttr("disabled");
+  
   //Habilitar casillas
   $(".casillas input").removeAttr("disabled");
   $(".casillas select").removeAttr("disabled");
@@ -111,17 +132,17 @@ function cambioPeli(rutaImg) {
     let infoPelicula = `${datosPelicula.nacionalidad} - ${datosPelicula.anio} - ${datosPelicula.genero}`;
     $("#infoPelicula").text(infoPelicula);
     $("#sinopsis").text(datosPelicula.sinopsis);
-  }
-}
-
+  }//end if
+}//end function cambioPeli(rutaImg)
+/*------------------------------------------------------------------*/
 /* Función que realiza el cambio de los elementos según la peli seleccionada
 en el menú de navegación */
 function cargar_pelicula() {
   $("nav img").on({
     click: function () {
-      //Para poner la carátula en grande
+      //Para obtener el parámetro (la ruta de la img)
       let rutaImg = $(this).attr("src");
-
+      // Llamada a la función para cambiar la peli
       cambioPeli(rutaImg);
       //Filtros de gris y color en el clicado
       $("nav img").removeClass("clicked");
@@ -144,15 +165,19 @@ function cargar_pelicula() {
       } //end if
     },
   });
-}
-
+}//end function cargar_pelicula()
+/*------------------------------------------------------------------*/
+//FUNCION PARA GESTIONAR TODA LA CONFIGURACION
 function configuracion() {
+  // Para cambiar de película
   $(".seleccionPeli").on({
     change: function () {
+      // Obtengo la ruta de la imagen seleccionada
       let rutaImagenSeleccionada = $(this).val();
       cambioPeli(rutaImagenSeleccionada);
-
+      // Por cada imagen realizo lo siguiente
       $("nav img").each(function () {
+        // Si el source coincide con la ruta
         if ($(this).attr("src") == rutaImagenSeleccionada) {
           $("nav img").removeClass("clicked");
           $(this).addClass("clicked");
@@ -162,14 +187,16 @@ function configuracion() {
           $(this).css("border", "3px inset purple");
           $("nav img").css("box-shadow", "none");
           $(this).css("box-shadow", "0px 0px 10px black");
-        }
+        }//end if
       });
     },
   });
-
+  // Para mostrar/ocultar la sinopsis
   $("#mostrarSinopsisCheckbox").on({
     change: function () {
+      // Si está checkeado el checkbox
       if ($(this).is(":checked")) {
+        // Hacemos el slideUp
         $(".descripcion").slideUp(tiempoSlow, function () {
           $(".pelicula").css("margin-top", "10rem");
           $(".pelicula img").css("transform", "scaleY(1.2)");
@@ -177,21 +204,21 @@ function configuracion() {
         });
       } else {
         $(".descripcion")
+          // Hacemos el slideDown
           .slideDown(tiempoSlow, function () {
             $(".pelicula").css("margin-top", "0");
             $(".pelicula img").css("transform", "scaleY(1)");
             $(".pelicula").css("transform", "scaleY(1)");
             $(".pelicula").css("border", "");
-
-            // $("#sinopsis").show();
           })
           .slideDown(tiempoSlow);
-      }
+      }//end else
     },
   });
-
+  // Para mostrar/ocultar el vídeo
   $("#mostrarVideoCheckbox").on({
     change: function () {
+      // Si está checkeado el checkbox
       if ($(this).is(":checked")) {
         $(".z_multimedia_video").fadeOut(tiempoSlow);
         $(".z_multimedia_img").css("border", "none");
@@ -202,9 +229,10 @@ function configuracion() {
       }
     },
   });
-
+  // Para cambiar el orden de las películas
   $("#invertirImagenesCheckbox").on({
     change: function () {
+      // Si está checkeado el checkbox
       if ($(this).is(":checked")) {
         $("nav").fadeOut(tiempoSlow, function () {
           $("nav").css("flex-direction", "column-reverse").fadeIn(tiempoSlow);
@@ -216,14 +244,14 @@ function configuracion() {
       }
     },
   });
-
+  // Función recursiva que no dejara de hacer fadeToggle hasta que se le pase el parámetro false
   let esRepetido = false;
   function repetir() {
     if (esRepetido) {
       $(".imagenes_img_img").fadeToggle(tiempoFadeOutCarrousel, repetir);
     }
   }
-
+  // Con la función realizamos el efecto en la imágenes de los personajes
   $("#carruselImagenesCheckbox").on({
     change: function () {
       if ($(this).is(":checked")) {
@@ -235,7 +263,7 @@ function configuracion() {
       }
     },
   });
-
+  // Para parar el efecto de fadeToggle si se clica en alguna imagen o en los botones de los personajes
   $(".imagenes_img_img, .circulo_selector_img").on({
     click: function () {
       if ($("#carruselImagenesCheckbox").is(":checked")) {
@@ -245,7 +273,7 @@ function configuracion() {
       }
     },
   });
-
+  // Para mostrar/ocultar el formulario de los comentarios
   $("#desactivarEdicionCheckbox").on({
     change: function () {
       if ($(this).is(":checked")) {
@@ -268,7 +296,7 @@ function configuracion() {
       }
     },
   });
-
+  // Para establecer el comienzo (segundo en el que comience) del vídeo de la peli
   $("#comienzoVideoCheckbox").on({
     input: function () {
       let empiezaSegundos = $(this).val();
@@ -297,6 +325,7 @@ function configuracion() {
     },
   });
 
+  // Para cambiar el color de la fuente
   $("#cambioColor").on({
     input: function () {
       let colorSeleccionado = $(this).val();
@@ -304,6 +333,7 @@ function configuracion() {
     },
   });
 
+  // Para cambiar la fuente
   $("#cambioFuente").on({
     change: function () {
       let fuenteSeleccionada = $(this).val();
@@ -311,13 +341,13 @@ function configuracion() {
     },
   });
 
+  // Par que la imagen de la carátula se amplie al hacer doble click
   $("#caratula_ampliada").dblclick(function () {
     let ventanaModal = "<div id='modal' class='modal'>" +
     "<span class='cerrar'>&#10005</span>" +
     "<img class='modal-content' src='" + $(this).attr("src") + "'></div>";
 
     $("body").append(ventanaModal);
-    //$("body").css("overflow-y", "hidden");
     let alturaBody = $("body").height();
     $(".modal").css("height",alturaBody);
 
@@ -325,24 +355,23 @@ function configuracion() {
       click: function(){
         $(".modal").remove();
         $(this).remove();
-        //$("body").css("overflow-y", "auto");
       },
     });
   });
-}
-
+}//end function configuracion()
+/*------------------------------------------------------------------*/
 //Función para que se ponga el personaje en grande según clickemos
 function personaje() {
   $(".imagenes_img_img").on({
     click: function () {
       let ruta = $(this).attr("src");
       $("#z_multimedia_img_img").attr("src", ruta);
-
       $(".imagenes_img_img").removeClass("clicked");
       $(this).addClass("clicked");
       $(".imagenes_img_img").css("filter", filtroInicial);
       $(this).css("filter", "none");
     },
+    // EFECTO HOVER
     mouseenter: function () {
       $(this).css("filter", filtroHover);
     },
@@ -353,7 +382,7 @@ function personaje() {
       } //end if
     },
   });
-}
+}//end function personaje()
 
 /*Función para que los "botones" se pinten de negro según
  el personaje seleccionado */
@@ -372,7 +401,7 @@ function imgcirculoSelector() {
         },
       });
   });
-}
+}//end function imgcirculoSelector()
 
 /* Función para que según la peli seleccionada y el botón clickado,
 se actualice la imagen del personaje en grande seleccionada */
@@ -401,8 +430,9 @@ function circuloSelector() {
       $(".imagenes_img_img").eq(posicion).css("filter", filtroHover);
     },
   });
-}
+}//end function circuloSelector()
 
+// FUNCION PARA HABILITAR LA ZONA DE LAS VALORACIONES
 function habilitarValoraciones() {
   $(".c_usuario input").on({
     input: function () {
@@ -431,7 +461,7 @@ function habilitarValoraciones() {
       }
     },
   });
-}
+}//end function habilitarValoraciones()
 
 let contadorComentarios = 0;
 function datosFormulario() {
@@ -444,6 +474,7 @@ function datosFormulario() {
       let nombrePeli = obtenerTitulo(ruta);
       if (valoracion != "" && comentario.length > 0) {
         if (valoracion >= 0 && valoracion <= 5) {
+          $("#salidaError").html("");
           $(".z_valoraciones").prepend(
             `<div class="comentario"><p id='${usuario}'>${usuario}-${nombrePeli}-${valoracion}-${comentario}</p><button id='eliminarComentario'>Eliminar comentario</button></div>`
           );
@@ -472,6 +503,7 @@ function datosFormulario() {
       }
     },
   });
+
   //Limpiar el formulario
   $("#cancelar").on({
     click: function () {
@@ -479,7 +511,7 @@ function datosFormulario() {
       $(".c_valoraciones textarea").val("");
     },
   });
-}
+}//end function datosFormulario()
 
 //-----------------------------------//
 //         FUNCIONES DE APOYO        //

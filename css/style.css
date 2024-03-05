@@ -356,7 +356,6 @@ button {
   gap: 3rem;
   justify-content: end;
 }
-/* PONERLE UN SVG DE PAPELERA AL BOTÓN */
 
 /* Zona de configuración, donde se pondrán todas las opciones necesarias para la configuración de la maqueta*/
 footer {
@@ -374,6 +373,7 @@ footer {
   justify-content: space-evenly;
 
 }
+
 .casillas{
   display: flex;
   flex-direction: column;
